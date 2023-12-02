@@ -13,7 +13,7 @@ class PlayersController < ApplicationController
   def create
     @player = Player.new(player_params)
     if @player.save
-      flash[:success] = "Welcome to PicklePals Stats!"
+      flash[:success] = "Welcome to PicklePals Stats Tracker!"
       redirect_to root_url
     else
       render 'new'

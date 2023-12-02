@@ -2,7 +2,7 @@ require "test_helper"
 
 class StaticPagesControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @base_title = "Picklepals Stats"
+    @base_title = "Picklepals Stats Tracker"
   end
 
   test "should get home" do
