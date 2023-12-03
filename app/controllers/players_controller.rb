@@ -1,5 +1,10 @@
 class PlayersController < ApplicationController
+  before_action :logged_in_player, only: [:edit, :update, :destroy]
+  before_action :correct_player,   only: [:edit, :update]
+  before_action :admin_player,     only: :destroy
+
   def index
+    @players = Player.paginate(page: params[:page], per_page: 30)
   end
 
   def show
@@ -13,6 +18,7 @@ class PlayersController < ApplicationController
   def create
     @player = Player.new(player_params)
     if @player.save
+      log_in @player
       flash[:success] = "Welcome to PicklePals Stats Tracker!"
       redirect_to root_url
     else
@@ -21,12 +27,20 @@ class PlayersController < ApplicationController
   end
 
   def edit
+    @player = Player.find(params[:id])
   end
 
   def update
+    if @player.update(player_params)
+      flash[:success] = "Profile updated"
+      redirect_to @player
+    else
+      render 'edit'
+    end
   end
 
   def destroy
+   
   end
 
   private
@@ -34,4 +48,12 @@ class PlayersController < ApplicationController
     params.require(:player).permit(:name, :email, :password,
                                  :password_confirmation)
   end
+
+  # Before filters
+
+    # Confirms the correct player.
+    def correct_player
+      @player = Player.find(params[:id])
+      redirect_to(root_url) unless current_player?(@player)
+    end
 end

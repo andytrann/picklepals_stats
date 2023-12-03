@@ -63,4 +63,8 @@ class PlayerTest < ActiveSupport::TestCase
     @player.password = @player.password_confirmation = "a" * 5
     assert_not @player.valid?
   end
+
+  test "authenticated? should return false for a player with nil digest" do
+    assert_not @player.authenticated?('')
+  end
 end
