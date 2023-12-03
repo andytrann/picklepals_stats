@@ -17,7 +17,7 @@ module SessionsHelper
       @current_player ||= Player.find_by(id: player_id)
     elsif (player_id = cookies.encrypted[:player_id])
       player = Player.find_by(id: player_id)
-      if player && player.authenticated?(cookies[:remember_token])
+      if player && player.authenticated?(:remember, cookies[:remember_token])
         log_in player
         @current_player = player
       end

@@ -1,6 +1,6 @@
 class Player < ApplicationRecord
-  attr_accessor :remember_token
-  before_save { self.email = email.downcase }
+  attr_accessor :remember_token, :reset_token
+  before_save :downcase_email
   validates :name, presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 255 },
@@ -28,9 +28,10 @@ class Player < ApplicationRecord
   end
 
   # Returns true if the given token matches the digest.
-  def authenticated?(remember_token)
-    return false if remember_digest.nil?
-    BCrypt::Password.new(remember_digest).is_password?(remember_token)
+  def authenticated?(attribute, token)
+    digest = send("#{attribute}_digest")
+    return false if digest.nil?
+    BCrypt::Password.new(digest).is_password?(token)
   end
 
   # Forgets a player.
@@ -41,4 +42,27 @@ class Player < ApplicationRecord
   def setActive(isActive = true)
     update_attribute(:active, isActive)
   end
+
+  # Sets the password reset attributes.
+  def create_reset_digest
+    self.reset_token = Player.new_token
+    update_columns(reset_digest: Player.digest(reset_token), 
+                   reset_sent_at: Time.zone.now)
+  end
+
+  # Sends password reset email.
+  def send_password_reset_email
+    PlayerMailer.password_reset(self).deliver_now
+  end
+
+  # Returns true if a password reset has expired.
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
+  end
+
+  private
+    # Converts email to all lower-case.
+    def downcase_email
+      self.email = email.downcase
+    end
 end

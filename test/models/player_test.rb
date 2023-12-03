@@ -65,6 +65,6 @@ class PlayerTest < ActiveSupport::TestCase
   end
 
   test "authenticated? should return false for a player with nil digest" do
-    assert_not @player.authenticated?('')
+    assert_not @player.authenticated?(:remember, '')
   end
 end
