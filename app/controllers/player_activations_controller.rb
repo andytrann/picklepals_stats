@@ -6,7 +6,7 @@ class PlayerActivationsController < ApplicationController
   #find all instances of player_activation_path
   def update
     player = Player.find(params[:id])
-    player.setActive(false)
+    player.setActive(params[:isActive])
     flash[:success] = "Player deactivated"
     redirect_to players_url
   end

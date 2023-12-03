@@ -25,10 +25,10 @@ class PlayersIndexTest < ActionDispatch::IntegrationTest
     first_page_of_players.each do |player|
       assert_select 'a[href=?]', player_path(player), text: player.name
       unless player == @admin
-        assert_select 'a[href=?]', player_activation_path(player.id), text: 'deactivate'
+        assert_select 'a[href=?]', player_activation_path(:id => player.id, :isActive => false), text: 'deactivate'
       end
     end
-    patch player_activation_path(@non_admin.id)
+    patch player_activation_path(:id => @non_admin.id, :isActive => false)
     @non_admin.reload
     assert_not @non_admin.active?
   end

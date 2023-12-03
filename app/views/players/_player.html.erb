@@ -1,7 +1,7 @@
 <li>
   <%= link_to player.name, player %>
   <% if logged_in? && current_player.admin? && !current_player?(player) %>
-  | <%= link_to "deactivate", player_activation_path(player.id), method: :patch,
+  | <%= link_to "deactivate", player_activation_path(:id => player.id, :isActive => false), method: :patch,
                                                        data: { confirm: "You sure?" } %>
   <% end %>
 </li>
