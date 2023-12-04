@@ -1,7 +1,14 @@
 <li>
   <%= link_to player.name, player %>
   <% if logged_in? && current_player.admin? && !current_player?(player) %>
-  | <%= link_to "deactivate", player_activation_path(:id => player.id, :isActive => false), method: :patch,
-                                                       data: { confirm: "You sure?" } %>
+  | <%= form_with(url: player_activation_path(player.id), method: "patch", 
+                                                          local: true, 
+                                                          data: { confirm: "You sure?" },
+                                                          html: { class: "deactivate_form"}) do |f| %>
+      <%= hidden_field_tag :email, player.email %>
+      <%= hidden_field_tag :isActive, false %>
+      
+      <%= f.submit "Deactivate", class: "hyperlink_button" %>
+    <% end %>
   <% end %>
 </li>

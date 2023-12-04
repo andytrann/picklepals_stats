@@ -115,6 +115,18 @@ input {
   }
 }
 
+.deactivate_form {
+  display: inline-block;
+}
+
+.hyperlink_button {
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  color: #069;
+  cursor: pointer;
+}
+
 //Don't think i'll need this because i don't have a footer
 @media (max-width: 800px) {
   footer {
