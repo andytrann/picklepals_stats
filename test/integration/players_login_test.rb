@@ -36,7 +36,8 @@ class PlayersLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_select "a[href=?]", login_path
     assert_select "a[href=?]", logout_path, count: 0
-    assert_select "a[href=?]", player_path(@player), count: 0
+    #assert_select "a[href=?]", player_path(@player), count: 0 #home page has leaderboard, so it will find a link to player
+    assert_template 'static_pages/home'
   end
 
   test "login with remembering" do
