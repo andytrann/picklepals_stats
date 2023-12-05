@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   resources :players
   resources :player_activations, only: [:update]
   resources :password_resets,    only: [:new, :create, :edit, :update]
+  resources :teams,              only: [:create]
 end

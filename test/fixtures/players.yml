@@ -11,6 +11,12 @@ crystaltest:
   password_digest: <%= Player.digest('password') %>
   active: true
 
+stevetest:
+  name: Steve Test
+  email: steve@example.com
+  password_digest: <%= Player.digest('password') %>
+  active: true
+
 <% 30.times do |n| %>
 player_<%= n %>:
   name: <%= "Player #{n}" %>
