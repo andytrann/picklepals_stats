@@ -6,7 +6,7 @@ class Team < ApplicationRecord
 
   validates :player_one_id, presence: true
   validates :player_two_id, presence: true
-  validate :validate_different_players
+  validate  :validate_different_players
   before_create :alphabetize_players
 
   def self.find_team(player_one_name, player_two_name)

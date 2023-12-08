@@ -1,6 +1,7 @@
 class Player < ApplicationRecord
   has_many :team_player_one_roles, class_name: "Team", foreign_key: "player_one_id"
   has_many :team_player_two_roles, class_name: "Team", foreign_key: "player_two_id"
+  has_many :player_matches
 
   attr_accessor :remember_token, :reset_token
   before_save :downcase_name

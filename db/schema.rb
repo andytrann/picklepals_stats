@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_12_05_065231) do
+ActiveRecord::Schema.define(version: 2023_12_08_060553) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,15 @@ ActiveRecord::Schema.define(version: 2023_12_05_065231) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["losing_team_id", "played_at"], name: "index_matches_on_losing_team_id_and_played_at"
     t.index ["winning_team_id", "played_at"], name: "index_matches_on_winning_team_id_and_played_at"
+  end
+
+  create_table "player_matches", force: :cascade do |t|
+    t.bigint "player_id", null: false
+    t.bigint "match_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["match_id"], name: "index_player_matches_on_match_id"
+    t.index ["player_id"], name: "index_player_matches_on_player_id"
   end
 
   create_table "players", force: :cascade do |t|
@@ -54,6 +63,8 @@ ActiveRecord::Schema.define(version: 2023_12_05_065231) do
 
   add_foreign_key "matches", "teams", column: "losing_team_id"
   add_foreign_key "matches", "teams", column: "winning_team_id"
+  add_foreign_key "player_matches", "matches"
+  add_foreign_key "player_matches", "players"
   add_foreign_key "teams", "players", column: "player_one_id"
   add_foreign_key "teams", "players", column: "player_two_id"
 end
