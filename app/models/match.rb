@@ -2,6 +2,7 @@ class Match < ApplicationRecord
   belongs_to :winning_team,   class_name: "Team"
   belongs_to :losing_team,    class_name: "Team"
   has_many   :player_matches
+  has_many   :team_matches
 
   validates :winning_team_id, presence: true
   validates :losing_team_id,  presence: true

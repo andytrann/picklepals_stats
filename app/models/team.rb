@@ -3,6 +3,7 @@ class Team < ApplicationRecord
   belongs_to :player_two, class_name: "Player"
   has_many :winning_matches, class_name: "Match", foreign_key: "winning_team_id"
   has_many :losing_matches,  class_name: "Match", foreign_key: "losing_team_id"
+  has_many :team_matches
 
   validates :player_one_id, presence: true
   validates :player_two_id, presence: true

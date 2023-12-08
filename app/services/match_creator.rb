@@ -76,10 +76,13 @@ class MatchCreator
       end
     end
 
-    # Create PlayerMatch for each player
+    # Create PlayerMatch for each player and TeamMatch for each team
     def create_player_matches(match)
       teams = [Team.find_by(id: match.winning_team_id), Team.find_by(id: match.losing_team_id)]
       teams.each do |team|
+        team_match = TeamMatch.new(team_id: team.id, match_id: match.id)
+        return unless team_match.save!
+        
         player_ids = [team.player_one_id, team.player_two_id]
         player_ids.each do |player_id|
           player_match = PlayerMatch.new(player_id: player_id, match_id: match.id)
