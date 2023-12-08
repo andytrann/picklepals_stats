@@ -24,4 +24,12 @@ class TeamTest < ActiveSupport::TestCase
     @team.player_two_id = @team.player_one_id
     assert_not @team.valid?
   end
+
+  test "should alphabetize players on creating team " do
+    @team.player_one_id = players(:leslietest).id
+    @team.save
+    @team.reload
+    assert @team.player_one_id = players(:crystaltest).id
+    assert @team.player_two_id = players(:leslietest).id
+  end
 end

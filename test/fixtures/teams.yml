@@ -1,2 +1,12 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+al:
+  player_one: andytest
+  player_two: leslietest
+
+cs:
+  player_one: crystaltest
+  player_two: stevetest
+
+as:
+  player_one: andytest
+  player_two: stevetest
 

@@ -1,0 +1,11 @@
+<% if @submit_attempt %>
+  <% if @match_creator.errors.any?%>
+    <div id="error_explanation">
+      <ul>
+        <% @match_creator.errors.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+<% end %>

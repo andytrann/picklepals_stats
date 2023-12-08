@@ -1,19 +1,25 @@
 andytest:
-  name: Andy Test
+  name: andy test
   email: idontcareeeeee@gmail.com
   password_digest: <%= Player.digest('password') %>
   admin: true
   active: true
 
 crystaltest:
-  name: Crystal Test
+  name: crystal test
   email: crystal@example.com
   password_digest: <%= Player.digest('password') %>
   active: true
 
 stevetest:
-  name: Steve Test
+  name: steve test
   email: steve@example.com
+  password_digest: <%= Player.digest('password') %>
+  active: true
+
+leslietest:
+  name: leslie test
+  email: leslie@example.com
   password_digest: <%= Player.digest('password') %>
   active: true
 

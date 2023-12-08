@@ -7,19 +7,36 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 # Create a main sample player.
-Player.create!(name: "Example Player",
-             email: "player@example.com",
+Player.create!(name: "Andy",
+             email: "AndyTran@example.com",
              password: "foobar",
              password_confirmation: "foobar",
              admin: true)
 
+Player.create!(name: "Steve",
+             email: "SteveLam@example.com",
+             password: "foobar",
+             password_confirmation: "foobar",
+             admin: true)
+
+Player.create!(name: "Leslie",
+             email: "LeslieAlvarado@example.com",
+             password: "foobar",
+             password_confirmation: "foobar",
+             admin: true)
+
+Player.create!(name: "Crystal",
+             email: "CrystalCheung@example.com",
+             password: "foobar",
+             password_confirmation: "foobar")
+
 # Generate a bunch of additional players.
-40.times do |n|
-  name = Faker::Name.name
-  email = "player-#{n+1}@example.com"
-  password = "password"
-  Player.create!(name: name,
-               email: email,
-               password: password,
-               password_confirmation: password)
-end
+# 40.times do |n|
+#   name = Faker::Name.name
+#   email = "player-#{n+1}@example.com"
+#   password = "password"
+#   Player.create!(name: name,
+#                email: email,
+#                password: password,
+#                password_confirmation: password)
+# end

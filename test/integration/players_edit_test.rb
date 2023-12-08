@@ -29,7 +29,7 @@ class PlayersEditTest < ActionDispatch::IntegrationTest
     assert_not flash.empty?
     assert_redirected_to @player
     @player.reload
-    assert_equal name, @player.name
+    assert_equal name.downcase, @player.name
     assert_equal email, @player.email
   end
 end
