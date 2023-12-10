@@ -14,10 +14,10 @@ class RatingsService
     teams.each do |team|
       ratings = []
       team.each do |player|
-        if player.player_rating_id.nil?
+        if player.player_ratings.count == 0
           rating = Rating.new
         else
-          player_rating = PlayerRating.find_by(id: player.player_rating_id)
+          player_rating = player.player_ratings.first
           rating = Rating.new(player_rating.mu, player_rating.sigma)
         end
         ratings.push(rating)

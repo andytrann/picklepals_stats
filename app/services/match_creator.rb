@@ -121,11 +121,7 @@ class MatchCreator
           player_rating = PlayerRating.new(player_match_id: player_match.id, mu: mu_f, 
                                             sigma: sigma_f, played_at: match.played_at)
           return unless player_rating.save!
-          
-          # Get rid of this line if i get rid of player_rating column in players
-          return unless player.update!(player_rating_id: player_rating.id)
         end
       end
-
     end
 end

@@ -2,9 +2,8 @@ class Player < ApplicationRecord
   has_many :team_player_one_roles, class_name: "Team", foreign_key: "player_one_id"
   has_many :team_player_two_roles, class_name: "Team", foreign_key: "player_two_id"
   has_many :player_matches
-  # Not sure if these 2 relationships are correct
+  has_many :matches, through: :player_matches
   has_many :player_ratings, through: :player_matches
-  belongs_to :current_rating, class_name: "PlayerRating", foreign_key: "player_rating_id", optional: true
 
   attr_accessor :remember_token, :reset_token
   before_save :downcase_name
