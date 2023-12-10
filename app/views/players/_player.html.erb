@@ -11,4 +11,10 @@
       <%= f.submit "Deactivate", class: "hyperlink_button" %>
     <% end %>
   <% end %>
+  <div class="player-match-score">
+    <%= player.won_matches %> - <%= player.lost_matches %>
+  </div>
+  <div class="player-exposed-rating">
+    <%= player.get_rating.round(1) %>
+  </div>
 </li>

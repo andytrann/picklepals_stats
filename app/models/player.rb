@@ -67,6 +67,32 @@ class Player < ApplicationRecord
     reset_sent_at < 2.hours.ago
   end
 
+  def won_matches
+    sum = 0
+    team_player_one_roles.each do |team|
+      sum += team.winning_matches.count
+    end
+    team_player_two_roles.each do |team|
+      sum += team.winning_matches.count
+    end
+    sum
+  end
+
+  def lost_matches
+    sum = 0
+    team_player_one_roles.each do |team|
+      sum += team.losing_matches.count
+    end
+    team_player_two_roles.each do |team|
+      sum += team.losing_matches.count
+    end
+    sum
+  end
+
+  def get_rating
+    RatingsService.exposed_rating_formatted(self)
+  end
+
   private
     # Converts email to all lower-case.
     def downcase_email
