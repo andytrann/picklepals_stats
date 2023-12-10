@@ -2,8 +2,7 @@ require "test_helper"
 
 class TeamMatchTest < ActiveSupport::TestCase
   def setup
-    @team_match = TeamMatch.new(team_id: teams(:al).id,
-                                  match_id: matches(:matchtest).id)
+    @team_match = team_matches(:al)
   end
 
   test "should be valid" do

@@ -1,0 +1,32 @@
+require 'TrueSkill'
+
+class RatingsService
+  def self.calculate_ratings(match)
+    return if !match.is_a?(Match)
+
+    win_team = Team.find_by(id: match.winning_team_id)
+    lose_team = Team.find_by(id: match.losing_team_id)
+    
+    teams = [[Player.find_by(id: win_team.player_one_id), Player.find_by(id: win_team.player_two_id)], 
+                [Player.find_by(id: lose_team.player_one_id), Player.find_by(id: lose_team.player_two_id)]]
+
+    teams_ratings = []
+    teams.each do |team|
+      ratings = []
+      team.each do |player|
+        if player.player_rating_id.nil?
+          rating = Rating.new
+        else
+          player_rating = PlayerRating.find_by(id: player.player_rating_id)
+          rating = Rating.new(player_rating.mu, player_rating.sigma)
+        end
+        ratings.push(rating)
+      end
+      teams_ratings.push(ratings)
+    end
+
+    true_skill = g()
+    true_skill.draw_probability = 0.0
+    new_ratings = true_skill.transform_ratings(teams_ratings, [0, 1])
+  end
+end

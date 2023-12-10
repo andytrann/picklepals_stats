@@ -1,3 +1,5 @@
+require 'TrueSkill'
+
 class MatchCreator
 
   attr_reader :match, :errors
@@ -18,7 +20,7 @@ class MatchCreator
         # Try and either get Team for DB or create new Team if doesnt exist yet
         team_one = get_team(@team_one_player_one_name, @team_one_player_two_name)
         team_two = get_team(@team_two_player_one_name, @team_two_player_two_name)
-        return unless team_one && team_two
+        #return unless team_one && team_two
 
         assign_teams_and_scores(team_one, team_two)
 
@@ -29,13 +31,14 @@ class MatchCreator
         return unless match.save!
         
         create_player_matches(match)
+        new_ratings = RatingsService.calculate_ratings(match)
+        create_player_ratings(new_ratings, match)
 
         true
       end
-    rescue ActiveRecord::RecordInvalid => e
+    rescue => e
       @errors << e.message
       false
-    rescue # it'll go here if cannot find player in DB. custom error messages added in get_team function
     end
   end
   private
@@ -44,15 +47,12 @@ class MatchCreator
       if !team
         player_one = Player.find_by(name: player_one_name)
         player_two = Player.find_by(name: player_two_name)
-
-        @errors << "Validation failed: #{player_one_name} is not a registered player" if player_one.nil?
-        @errors << "Validation failed: #{player_two_name} is not a registered player" if player_two.nil?
+        
+        raise ActiveRecord::RecordNotFound.new "Validation failed: #{player_one_name} is not a registered player" if player_one.nil?
+        raise ActiveRecord::RecordNotFound.new "Validation failed: #{player_two_name} is not a registered player" if player_two.nil?
 
         team = Team.new(player_one_id: player_one.id, player_two_id: player_two.id)
-        if team.save!
-          team
-        else
-        end
+        team if team.save!
       else
         team
       end
@@ -76,13 +76,13 @@ class MatchCreator
       end
     end
 
-    # Create PlayerMatch for each player and TeamMatch for each team
+    # Create PlayerMatch record for each player and TeamMatch record for each new team
     def create_player_matches(match)
       teams = [Team.find_by(id: match.winning_team_id), Team.find_by(id: match.losing_team_id)]
       teams.each do |team|
         team_match = TeamMatch.new(team_id: team.id, match_id: match.id)
         return unless team_match.save!
-        
+
         player_ids = [team.player_one_id, team.player_two_id]
         player_ids.each do |player_id|
           player_match = PlayerMatch.new(player_id: player_id, match_id: match.id)
@@ -90,11 +90,42 @@ class MatchCreator
         end
       end
     end
-end
 
-    # 1) Match info gets submitted from form
-    # 2) Grabs team IDs from inputed names,
-    #    if no team, create record in Team table and store ID
-    # 3) Create record in Match table with team IDs
-    # 4) Create record in PlayerMatch table
-    # 5) Create record in TeamMatch table
+    # Create PlayerRating record for each player from the match
+    def create_player_ratings(new_ratings, match)
+      return if !match.is_a?(Match) || new_ratings.nil?
+
+      win_team = Team.find_by(id: match.winning_team_id)
+      lose_team = Team.find_by(id: match.losing_team_id)
+      
+      teams_players = [[Player.find_by(id: win_team.player_one_id), Player.find_by(id: win_team.player_two_id)], 
+                      [Player.find_by(id: lose_team.player_one_id), Player.find_by(id: lose_team.player_two_id)]]
+
+      teams_players.each_with_index do |team, tIndex|
+        team.each_with_index do |player, pIndex|
+          player_match = PlayerMatch.find_by(player_id: player.id, match_id: match.id)
+          raise ActiveRecord::RecordNotFound.new "Record not found: Could not find player match record "\
+                                                   " for #{player.name} for match id #{match.id}" if player_match.nil?
+
+          rating = new_ratings[tIndex][pIndex]
+          rating_parse = rating.to_s.split(',')
+
+          mu_string = rating_parse[0][1..-1]
+          mu_parse = mu_string.split('=')
+          mu_f = mu_parse[1].to_f
+
+          sigma_string = rating_parse[1].chop
+          sigma_parse = sigma_string.split('=')
+          sigma_f = sigma_parse[1].to_f
+
+          player_rating = PlayerRating.new(player_match_id: player_match.id, mu: mu_f, 
+                                            sigma: sigma_f, played_at: match.played_at)
+          return unless player_rating.save!
+          
+          # Get rid of this line if i get rid of player_rating column in players
+          return unless player.update!(player_rating_id: player_rating.id)
+        end
+      end
+
+    end
+end

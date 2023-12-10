@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_12_08_065723) do
+ActiveRecord::Schema.define(version: 2023_12_08_221158) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,17 @@ ActiveRecord::Schema.define(version: 2023_12_08_065723) do
     t.index ["player_id"], name: "index_player_matches_on_player_id"
   end
 
+  create_table "player_ratings", force: :cascade do |t|
+    t.bigint "player_match_id", null: false
+    t.float "mu"
+    t.datetime "played_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.float "sigma"
+    t.index ["player_match_id", "played_at"], name: "index_player_ratings_on_player_match_id_and_played_at"
+    t.index ["player_match_id"], name: "index_player_ratings_on_player_match_id"
+  end
+
   create_table "players", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -47,8 +58,10 @@ ActiveRecord::Schema.define(version: 2023_12_08_065723) do
     t.datetime "reset_sent_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "player_rating_id"
     t.index ["email"], name: "index_players_on_email", unique: true
     t.index ["name"], name: "index_players_on_name"
+    t.index ["player_rating_id"], name: "index_players_on_player_rating_id"
   end
 
   create_table "team_matches", force: :cascade do |t|
@@ -74,6 +87,8 @@ ActiveRecord::Schema.define(version: 2023_12_08_065723) do
   add_foreign_key "matches", "teams", column: "winning_team_id"
   add_foreign_key "player_matches", "matches"
   add_foreign_key "player_matches", "players"
+  add_foreign_key "player_ratings", "player_matches"
+  add_foreign_key "players", "player_ratings"
   add_foreign_key "team_matches", "matches"
   add_foreign_key "team_matches", "teams"
   add_foreign_key "teams", "players", column: "player_one_id"
