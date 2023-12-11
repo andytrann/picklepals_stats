@@ -93,6 +93,10 @@ class Player < ApplicationRecord
     RatingsService.exposed_rating_formatted(self)
   end
 
+  def self.sort_by_rating
+    Player.all.sort_by(&:get_rating).reverse
+  end
+
   private
     # Converts email to all lower-case.
     def downcase_email

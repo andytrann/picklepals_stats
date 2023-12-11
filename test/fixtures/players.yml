@@ -1,5 +1,5 @@
 andytest:
-  name: andy test
+  name: andy
   email: idontcareeeeee@gmail.com
   password_digest: <%= Player.digest('password') %>
   admin: true
@@ -22,11 +22,3 @@ leslietest:
   email: leslie@example.com
   password_digest: <%= Player.digest('password') %>
   active: true
-
-<% 30.times do |n| %>
-player_<%= n %>:
-  name: <%= "Player #{n}" %>
-  email: <%= "player-#{n}@example.com" %>
-  password_digest: <%= Player.digest('password') %>
-  active: true
-<% end %>

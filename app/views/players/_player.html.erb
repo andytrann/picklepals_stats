@@ -1,20 +1,21 @@
-<li>
-  <%= link_to player.name, player %>
-  <% if logged_in? && current_player.admin? && !current_player?(player) %>
-  | <%= form_with(url: player_activation_path(player.id), method: "patch", 
-                                                          local: true, 
-                                                          data: { confirm: "You sure?" },
-                                                          html: { class: "deactivate_form"}) do |f| %>
-      <%= hidden_field_tag :email, player.email %>
-      <%= hidden_field_tag :isActive, false %>
-      
-      <%= f.submit "Deactivate", class: "hyperlink_button" %>
-    <% end %>
+<tr>
+  <th scope="row"> <%= @players.find_index(player) + 1 %> </th>
+  <td> <%= link_to player.name.capitalize, player %> </td>
+  <td> <%= player.won_matches %> - <%= player.lost_matches %></td>
+  <td> <%= player.get_rating.round(2) %> </td>
+  <% if logged_in? && current_player.admin? && current_player.name == "andy" %>
+    <td>
+      <% if !current_player?(player) %>
+        <%= form_with(url: player_activation_path(player.id), method: "patch", 
+                                                              local: true, 
+                                                              data: { confirm: "You sure?" },
+                                                              html: { class: "deactivate_form"}) do |f| %>
+          <%= hidden_field_tag :email, player.email %>
+          <%= hidden_field_tag :isActive, false %>
+          
+          <%= f.submit "Deactivate", class: "hyperlink_button" %>
+        <% end %>
+      <% end %>
+    </td>
   <% end %>
-  <div class="player-match-score">
-    <%= player.won_matches %> - <%= player.lost_matches %>
-  </div>
-  <div class="player-exposed-rating">
-    <%= player.get_rating.round(1) %>
-  </div>
-</li>
+</tr>

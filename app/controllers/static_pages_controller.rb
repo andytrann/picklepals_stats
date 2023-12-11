@@ -1,6 +1,6 @@
 class StaticPagesController < ApplicationController
   def home
-    @players = Player.paginate(page: params[:page], per_page: 30)
+    @players = Player.sort_by_rating
   end
 
   def about

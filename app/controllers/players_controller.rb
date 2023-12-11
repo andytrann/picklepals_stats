@@ -3,11 +3,6 @@ class PlayersController < ApplicationController
   before_action :correct_player,   only: [:edit, :update]
   before_action :admin_player,     only: :destroy
 
-  # Probably can get rid of this in the future since home page will have list of players in leaderboard
-  def index
-    @players = Player.paginate(page: params[:page], per_page: 30)
-  end
-
   def show
     @player = Player.find(params[:id])
   end

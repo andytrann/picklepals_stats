@@ -33,7 +33,11 @@ class RatingsService
   def self.exposed_rating_formatted(player)
     return if !player.is_a?(Player)
     player_rating = player.player_ratings.first
-    rating = Rating.new(player_rating.mu, player_rating.sigma)
+    if player_rating.nil?
+      rating = Rating.new
+    else
+      rating = Rating.new(player_rating.mu, player_rating.sigma)
+    end
     100 + (rating.exposure * 10)
   end
 end

@@ -1,8 +1,21 @@
 <h1>Leaderboard</h1>
-<% if @players.any? %>
-  <ul class="players">
-    <%= render @players %>
-  </ul>
-  <%= will_paginate @players,
-                    params: { controller: :static_pages, action: :home } %>
-<% end %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Record</th>
+      <th scope="col">Rating</th>
+      <% if logged_in? && current_player.admin? && current_player.name == "andy" %>
+        <th scope="col"></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @players.any? %>
+      <%= render @players %>
+    <% end %>
+  </tbody>
+</table>
+
+

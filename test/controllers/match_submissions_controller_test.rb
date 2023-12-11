@@ -4,7 +4,7 @@ class MatchSubmissionsControllerTest < ActionDispatch::IntegrationTest
   def setup
     @admin = players(:andytest)
     @non_admin = players(:crystaltest)
-    @params = { team_one_player_one_name: "andy test", 
+    @params = { team_one_player_one_name: "andy", 
                 team_one_player_two_name: "crystal test",
                 team_two_player_one_name: "steve test",
                 team_two_player_two_name: "leslie test",
@@ -13,7 +13,7 @@ class MatchSubmissionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def reset_params_to_default
-    @params = { team_one_player_one_name: "andy test", 
+    @params = { team_one_player_one_name: "andy", 
                 team_one_player_two_name: "crystal test",
                 team_two_player_one_name: "steve test",
                 team_two_player_two_name: "leslie test",
@@ -62,7 +62,7 @@ class MatchSubmissionsControllerTest < ActionDispatch::IntegrationTest
 
   test "valid submission should be case insensitive" do
     log_in_as(@admin)
-    @params[:team_one_player_one_name] = "Andy Test"
+    @params[:team_one_player_one_name] = "Andy"
     assert_difference ->{ Team.count } => 2, ->{ Match.count } => 1, ->{ PlayerMatch.count } => 4,
                       ->{ TeamMatch.count } => 2, ->{ PlayerRating.count } => 4 do
       post match_submissions_path, params: {match_submission: @params}
