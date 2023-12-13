@@ -1,2 +1,24 @@
-<h1>Players#show</h1>
-<p>Find me in app/views/players/show.html.erb</p>
+<% provide(:title, @player.name.capitalize) %>
+<% rank = @players.find_index(@player) + 1 %>
+
+<div class="container player_info">
+  <div class="row">
+    <div class="col-xs-6 col-xs-offset-3 player_stats">
+      <div class="player_name player_rank_<%= rank %>">
+        <%= @player.name.capitalize %>
+      </div>
+      <div class="player_rank player_rank_<%= rank %>">
+        #<%= rank %>
+      </div>
+      <div class="player_score">
+        <%= @player.won_matches %> - <%= @player.lost_matches %> <span style="font-size:15px">|</span> <%= @player.get_rating.round(2) %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if @player.matches.any? %>
+<div class="container player_match_history">
+  <%= render @player.matches %>
+</div>
+<% end %>

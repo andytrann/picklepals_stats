@@ -4,6 +4,7 @@ class PlayersController < ApplicationController
   before_action :admin_player,     only: :destroy
 
   def show
+    @players = Player.sort_by_rating
     @player = Player.find(params[:id])
   end
 

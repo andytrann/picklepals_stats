@@ -30,14 +30,17 @@ class RatingsService
     new_ratings = true_skill.transform_ratings(teams_ratings, [0, 1])
   end
 
-  def self.exposed_rating_formatted(player)
-    return if !player.is_a?(Player)
-    player_rating = player.player_ratings.first
-    if player_rating.nil?
-      rating = Rating.new
-    else
-      rating = Rating.new(player_rating.mu, player_rating.sigma)
+  def self.exposed_rating_formatted(player_or_rating)
+    if player_or_rating.is_a?(Player)
+      player_rating = player_or_rating.player_ratings.first
+      if player_rating.nil?
+        rating = Rating.new
+      else
+        rating = Rating.new(player_rating.mu, player_rating.sigma)
+      end
+      100 + (rating.exposure * 10)
+    elsif player_or_rating.is_a?(Rating)
+      100 + (player_or_rating.exposure * 10)
     end
-    100 + (rating.exposure * 10)
   end
 end

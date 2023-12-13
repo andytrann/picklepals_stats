@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-12 match_row">
+    <% if match.player_won?(@player) %>
+    <%= match.winning_team.player_one.name.capitalize %>
+    <%= match.winning_team.player_two.name.capitalize %>
+    <%= match.winning_team_score %> - <%= match.losing_team_score %>
+    <%= match.losing_team.player_one.name.capitalize %>
+    <%= match.losing_team.player_two.name.capitalize %>
+    <% else %>
+    <%= match.losing_team.player_one.name.capitalize %>
+    <%= match.losing_team.player_two.name.capitalize %>
+    <%= match.losing_team_score %> - <%= match.winning_team_score %>
+    <%= match.winning_team.player_one.name.capitalize %>
+    <%= match.winning_team.player_two.name.capitalize %>
+    <% end %>
+    <%= match.played_at.strftime("%a %b %e %I:%M %p %Y") %>
+    <%= @player.rating_gained(match).round(2) %>
+    <%= match.is_ice? %>
+  </div>
+</div>

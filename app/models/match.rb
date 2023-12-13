@@ -16,6 +16,16 @@ class Match < ApplicationRecord
   validate  :validate_different_teams
   validate  :validate_all_different_players
 
+  def player_won?(player)
+    return if !player.is_a?(Player) || !players.include?(player)
+
+    winning_team.player_one == player || winning_team.player_two == player
+  end
+
+  def is_ice?
+    losing_team_score == 0
+  end
+
   private
     def validate_different_teams
       if self.winning_team_id == self.losing_team_id

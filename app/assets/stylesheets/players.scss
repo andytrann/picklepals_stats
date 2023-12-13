@@ -1,3 +1,39 @@
-// Place all the styles related to the Players controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: https://sass-lang.com/
+.player_stats {
+  height: 150px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .player_name {
+    font-size: 40px;
+    font-weight: bold;
+  }
+  .player_rank {
+    font-size: 40px;
+    font-weight: bold;
+  }
+  
+  .player_score_and_rating {
+    font-size: 20px;
+  }
+}
+
+.player_rank_1 {
+  color: rgb(255, 215, 0)
+}
+
+.player_rank_2 {
+  color: rgb(192, 192, 192)
+}
+
+.player_rank_3 {
+  color: rgb(255, 87, 51)
+}
+
+.player_graph {
+  background-color: green;
+}
+
+.player_match_history {
+  margin-top: 10px
+}

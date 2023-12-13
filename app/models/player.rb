@@ -97,6 +97,28 @@ class Player < ApplicationRecord
     Player.all.sort_by(&:get_rating).reverse
   end
 
+  def rating_gained(match)
+    return if !match.is_a?(Match)
+
+    match_index = matches.find_index(match)
+    return if match_index.nil?
+
+    player_match = player_matches.find_by(match: match)
+    player_rating = player_ratings.find_by(player_match: player_match)
+    rating = Rating.new(player_rating.mu, player_rating.sigma)
+
+    if match_index == matches.count - 1
+      previous_rating = Rating.new
+    else
+      previous_match = matches[match_index + 1]
+      previous_player_match = player_matches.find_by(match: previous_match)
+      previous_player_rating = player_ratings.find_by(player_match: previous_player_match)
+      previous_rating = Rating.new(previous_player_rating.mu, previous_player_rating.sigma)
+    end
+
+    RatingsService.exposed_rating_formatted(rating) - RatingsService.exposed_rating_formatted(previous_rating)
+  end
+
   private
     # Converts email to all lower-case.
     def downcase_email
