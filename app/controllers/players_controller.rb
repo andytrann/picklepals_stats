@@ -6,6 +6,7 @@ class PlayersController < ApplicationController
   def show
     @players = Player.sort_by_rating
     @player = Player.find(params[:id])
+    @matches = @player.matches.paginate(page: params[:page], per_page: 10)
   end
 
   def new

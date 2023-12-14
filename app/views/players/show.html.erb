@@ -19,6 +19,9 @@
 
 <% if @player.matches.any? %>
 <div class="container player_match_history">
-  <%= render @player.matches %>
+  <%= render @matches %>
+</div>
+<div class="match_pagination">
+  <%= will_paginate @matches %>
 </div>
 <% end %>
