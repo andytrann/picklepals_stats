@@ -1,0 +1,19 @@
+andy:
+  player_match: andy
+  mu: 25.0
+  sigma: 8.33333
+
+leslie:
+  player_match: leslie
+  mu: 25.0
+  sigma: 8.33333
+
+crystal:
+  player_match: crystal
+  mu: 25.0
+  sigma: 8.33333
+
+steve:
+  player_match: steve
+  mu: 25.0
+  sigma: 8.33333
