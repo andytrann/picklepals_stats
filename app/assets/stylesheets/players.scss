@@ -1,9 +1,10 @@
 .player_stats {
   height: 150px;
-  border: 1px solid black;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: white;
+  border-radius: 10px;
   .player_name {
     font-size: 40px;
     font-weight: bold;
