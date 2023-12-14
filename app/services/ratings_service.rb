@@ -43,4 +43,29 @@ class RatingsService
       100 + (player_or_rating.exposure * 10)
     end
   end
+
+  def self.get_player_rank(player, players)
+    return if player.nil?
+    index = players.find_index(player)
+    return if index.nil?
+    if index == 0
+      index + 1
+    elsif index == 1
+      exposed_player_rating = exposed_rating_formatted(player)
+      exposed_previous_player_rating = exposed_rating_formatted(players[index - 1])
+      if (exposed_player_rating - exposed_previous_player_rating).abs <= 0.00001
+        index
+      else
+        index + 1
+      end
+    else
+      exposed_player_rating = exposed_rating_formatted(player)
+      exposed_previous_player_rating = exposed_rating_formatted(players[index - 1])
+      while (index >= 1 && (exposed_player_rating - exposed_previous_player_rating).abs <= 0.00001)
+        index -= 1
+        exposed_previous_player_rating = exposed_rating_formatted(players[index - 1])
+      end
+      index + 1
+    end
+  end
 end

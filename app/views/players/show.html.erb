@@ -1,5 +1,5 @@
 <% provide(:title, @player.name.capitalize) %>
-<% rank = @players.find_index(@player) + 1 %>
+<% rank = RatingsService.get_player_rank(@player, @players) %>
 
 <div class="container player_info">
   <div class="row">

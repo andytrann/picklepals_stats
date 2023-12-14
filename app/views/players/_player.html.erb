@@ -1,5 +1,7 @@
+<% rank = RatingsService.get_player_rank(player, @players) %>
+
 <tr>
-  <th scope="row"> <%= @players.find_index(player) + 1 %> </th>
+  <th scope="row"> <%= rank %> </th>
   <td> <%= link_to player.name.capitalize, player %> </td>
   <td> <%= player.won_matches %> - <%= player.lost_matches %></td>
   <td> <%= player.get_rating.round(2) %> </td>
