@@ -119,6 +119,10 @@ class Player < ApplicationRecord
     RatingsService.exposed_rating_formatted(rating) - RatingsService.exposed_rating_formatted(previous_rating)
   end
 
+  def self.search(term)
+    where("name ILIKE ?", "#{term}%")
+  end
+
   private
     # Converts email to all lower-case.
     def downcase_email

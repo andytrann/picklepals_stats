@@ -7,5 +7,12 @@ require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
-require("jquery")
+require("jquery-ui")
 import "bootstrap"
+
+$(function() {
+  $(".player-name-autocomplete").autocomplete({
+    source: '/player_names',
+  });
+})
+

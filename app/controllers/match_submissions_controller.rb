@@ -3,6 +3,13 @@ class MatchSubmissionsController < ApplicationController
   before_action :admin_player,         only: [:new, :create]
   before_action :downcase_names,       only: :create
 
+  def player_names
+    players = Player.search(params[:term])
+    names = players.map(&:name)
+    sorted_names = names.map(&:capitalize).sort
+    render json: sorted_names
+  end
+  
   #Bug where after invalid submission, goes to index page
   def index
     redirect_to submit_path
