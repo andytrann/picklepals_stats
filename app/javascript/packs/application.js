@@ -10,9 +10,8 @@ require("channels")
 require("jquery-ui")
 import "bootstrap"
 
-$(function() {
+$(document).on('turbolinks:load', function() {
   $(".player-name-autocomplete").autocomplete({
     source: '/player_names',
   });
-})
-
+});
