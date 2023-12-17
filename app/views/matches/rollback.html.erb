@@ -1,0 +1,10 @@
+<% provide(:title, "Rollback") %>
+<h1> Rollback </h1>
+<div class="match_neutral">
+  <%= render @last_match %>
+</div>
+<div>
+  <%= link_to "Delete", @last_match, 
+                        class: "btn btn-danger col-xs-6 col-xs-offset-3 col-md-2 col-md-offset-5",
+                        method: :delete, data: { confirm: "You sure?" } %>
+</div>

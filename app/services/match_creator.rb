@@ -41,6 +41,7 @@ class MatchCreator
       false
     end
   end
+
   private
     def get_team(player_one_name, player_two_name)
       team = Team.find_team(player_one_name, player_two_name)

@@ -106,3 +106,10 @@ $match-bg-color: white;
   justify-content: center;
 }
 
+@media (max-width: 767px) {
+  .match_neutral {
+    position: relative;
+    right: 13px;
+  }
+}
+
