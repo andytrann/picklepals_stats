@@ -1,4 +1,7 @@
 class MatchesController < ApplicationController
+  before_action :logged_in_player, only: [:rollback, :destroy]
+  before_action :admin_player,     only: [:rollback, :destroy]
+  
   def index
   end
 
