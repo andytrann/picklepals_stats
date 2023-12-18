@@ -45,4 +45,12 @@ class MatchTest < ActiveSupport::TestCase
     @match.losing_team_score = 13
     assert @match.valid?
   end
+
+  test "deleting match should remove corresponding records for playermatch, teammatch, and playerrating" do
+    match = matches(:matchtest)
+    assert_difference ->{ Match.count } => -1, ->{ PlayerMatch.count } => -4,
+                      ->{ TeamMatch.count } => -2, ->{ PlayerRating.count } => -4 do
+      match.destroy
+    end
+  end
 end
