@@ -94,7 +94,7 @@ class Player < ApplicationRecord
   end
 
   def self.sort_by_rating
-    Player.all.sort_by(&:get_rating).reverse
+    Player.all.select(&:active?).sort_by(&:get_rating).reverse
   end
 
   def rating_gained(match)

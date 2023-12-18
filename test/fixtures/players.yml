@@ -22,3 +22,9 @@ leslietest:
   email: leslie@example.com
   password_digest: <%= Player.digest('password') %>
   active: true
+
+kyletest:
+  name: kyle test
+  email: kyle@example.com
+  password_digest: <%= Player.digest('password') %>
+  active: false

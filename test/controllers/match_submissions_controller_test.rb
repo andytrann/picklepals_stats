@@ -180,6 +180,14 @@ class MatchSubmissionsControllerTest < ActionDispatch::IntegrationTest
       @params[:team_two_score] = -11
       post match_submissions_path, params: {match_submission: @params}
     end
+
+    # Player is not active
+    assert_no_difference ['Team.count', 'Match.count', 'PlayerMatch.count',
+                           'TeamMatch.count', 'PlayerRating.count'] do
+      reset_params_to_default
+      @params[:team_one_player_one_name] = "kyle test"
+      post match_submissions_path, params: {match_submission: @params}
+    end
   end
 
   test "invalid submission should render submission page again" do

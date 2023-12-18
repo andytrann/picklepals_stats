@@ -5,8 +5,8 @@ class MatchSubmissionsController < ApplicationController
 
   def player_names
     players = Player.search(params[:term])
-    names = players.map(&:name)
-    sorted_names = names.map(&:capitalize).sort
+    names = players.select(&:active).map(&:name)
+    sorted_names = names.map(&:titleize).sort
     render json: sorted_names
   end
   

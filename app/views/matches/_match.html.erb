@@ -21,10 +21,10 @@
         <% if @player.nil? || match.player_won?(@player) %>
         <div class="match_team_one">
           <div>
-            <%= match.winning_team.player_one.name.capitalize %>
+            <%= link_to match.winning_team.player_one.name.titleize, match.winning_team.player_one %>
           </div>
           <div>
-            <%= match.winning_team.player_two.name.capitalize %>
+            <%= link_to match.winning_team.player_two.name.titleize, match.winning_team.player_two %>
           </div>
         </div>
         <div class="match_score">
@@ -32,10 +32,10 @@
         </div>
         <div class="match_team_two">
           <div>
-            <%= match.losing_team.player_one.name.capitalize %>
+            <%= link_to match.losing_team.player_one.name.titleize, match.losing_team.player_one %>
           </div>
           <div>
-            <%= match.losing_team.player_two.name.capitalize %>
+            <%= link_to match.losing_team.player_two.name.titleize, match.losing_team.player_two %>
           </div>
         </div>
         <% if !@player.nil? %>
@@ -46,10 +46,10 @@
         <% else %>
         <div class="match_team_one">
           <div>
-            <%= match.losing_team.player_one.name.capitalize %>
+            <%= link_to match.losing_team.player_one.name.titleize, match.losing_team.player_one %>
           </div>
           <div>
-            <%= match.losing_team.player_two.name.capitalize %>
+            <%= link_to match.losing_team.player_two.name.titleize, match.losing_team.player_two %>
           </div>
         </div>
         <div class="match_score">
@@ -57,10 +57,10 @@
         </div>
         <div class="match_team_two">
           <div>
-            <%= match.winning_team.player_one.name.capitalize %>
+            <%= link_to match.winning_team.player_one.name.titleize, match.winning_team.player_one %>
           </div>
           <div>
-            <%= match.winning_team.player_two.name.capitalize %>
+            <%= link_to match.winning_team.player_two.name.titleize, match.winning_team.player_two %>
           </div>
         </div>
         <div class="match_rating_lose">

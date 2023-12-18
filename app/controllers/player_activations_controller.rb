@@ -4,9 +4,14 @@ class PlayerActivationsController < ApplicationController
   before_action :get_player,       only: :update
 
   def update
-    @player.setActive(params[:isActive])
-    flash[:success] = "Player deactivated"
-    redirect_to players_url
+    isActive = params[:isActive]
+    @player.setActive(isActive)
+    if isActive
+      flash[:success] = "Player reactivated"
+    else
+      flash[:success] = "Player deactivated"
+    end
+    redirect_to root_url
   end
 
   private

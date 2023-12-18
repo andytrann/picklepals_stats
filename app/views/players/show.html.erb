@@ -1,11 +1,11 @@
-<% provide(:title, @player.name.capitalize) %>
+<% provide(:title, @player.name.titleize) %>
 <% rank = RatingsService.get_player_rank(@player, @players) %>
 
 <div class="container player_info">
   <div class="row">
     <div class="col-xs-6 col-xs-offset-3 player_stats">
       <div class="player_name player_rank_<%= rank %>">
-        <%= @player.name.capitalize %>
+        <%= @player.name.titleize %>
       </div>
       <div class="player_rank player_rank_<%= rank %>">
         #<%= rank %>
@@ -13,6 +13,22 @@
       <div class="player_score">
         <%= @player.won_matches %> - <%= @player.lost_matches %> <span style="font-size:15px">|</span> <%= @player.get_rating.round(2) %>
       </div>
+
+      <% if logged_in? && current_player.admin? && current_player.name == "andy" %>
+        <%= form_with(url: player_activation_path(@player.id), method: "patch", 
+                                                               local: true, 
+                                                               data: { confirm: "You sure?" }) do |f| %>
+          <%= hidden_field_tag :email, @player.email %>
+          <%= hidden_field_tag :isActive, !@player.active %>
+          <% if @player.active %>
+            <% activation = "Deactivate" %>
+          <% else %>
+            <% activation = "Reactivate" %>
+          <% end %>
+          <%= f.submit activation, class: "hyperlink_button" %>
+        <% end %>
+      <% end %>
+
     </div>
   </div>
 </div>

@@ -49,8 +49,11 @@ class MatchCreator
         player_one = Player.find_by(name: player_one_name)
         player_two = Player.find_by(name: player_two_name)
         
-        raise ActiveRecord::RecordNotFound.new "Validation failed: #{player_one_name} is not a registered player" if player_one.nil?
-        raise ActiveRecord::RecordNotFound.new "Validation failed: #{player_two_name} is not a registered player" if player_two.nil?
+        raise ActiveRecord::RecordNotFound.new "Validation failed: #{player_one_name.titleize} is not a registered player" if player_one.nil?
+        raise ActiveRecord::RecordNotFound.new "Validation failed: #{player_two_name.titleize} is not a registered player" if player_two.nil?
+        
+        raise ActiveRecord::RecordNotFound.new "Validation failed: #{player_one_name.titleize} is currently not an active player" if !player_one.active?
+        raise ActiveRecord::RecordNotFound.new "Validation failed: #{player_two_name.titleize} is currently not an active player" if !player_two.active?
 
         team = Team.new(player_one_id: player_one.id, player_two_id: player_two.id)
         team if team.save!

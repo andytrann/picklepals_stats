@@ -9,18 +9,22 @@ class HomePlayersTest < ActionDispatch::IntegrationTest
   test "home page includes links to each player" do
     get root_path
     assert_template 'static_pages/home'
-    Player.all.each do |player|
-      assert_select 'a[href=?]', player_path(player), text: player.name.capitalize
+    active_players = Player.all.select(&:active)
+    active_players.each do |player|
+      assert_select 'a[href=?]', player_path(player), text: player.name.titleize
     end
+    inactive_player = players(:kyletest)
+    assert_select 'a[href=?]', player_path(inactive_player), { count: 0, text: inactive_player.name.titleize }
   end
 
-  test "login as andy and check for delete links" do
+  test "login as andy and check for deactivate links" do
     log_in_as(@admin)
     get root_path
     assert_template 'static_pages/home'
-    first_page_of_players = Player.all
+    active_players = Player.all.select(&:active)
+    first_page_of_players = active_players
     first_page_of_players.each do |player|
-      assert_select 'a[href=?]', player_path(player), text: player.name.capitalize
+      assert_select 'a[href=?]', player_path(player), text: player.name.titleize
       unless player == @admin
         assert_select "form input[type='submit'][value='Deactivate']"
       end

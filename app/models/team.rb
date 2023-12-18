@@ -33,7 +33,7 @@ class Team < ApplicationRecord
 
     def validate_different_players
       if self.player_one_id == self.player_two_id
-        errors.add(:player_one_id, "#{player_one.name.capitalize} cannot also be Player two")
+        errors.add(:player_one_id, "#{player_one.name.titleize} cannot also be Player two")
       end
     end
 end
