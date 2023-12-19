@@ -16,5 +16,9 @@
   "devDependencies": {
     "postcss": "^8.4.32",
     "webpack-dev-server": "^4.15.1"
+  },
+  "engines": {
+    "node": "16.20.2",
+    "yarn": "1.22.19"
   }
 }
