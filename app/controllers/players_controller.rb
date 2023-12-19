@@ -29,12 +29,18 @@ class PlayersController < ApplicationController
   end
 
   def update
-    if @player.update(player_params)
-      flash[:success] = "Profile updated"
-      redirect_to @player
+    if check_password?
+      if @player.update(player_params)
+        flash[:success] = "Profile updated"
+        redirect_to @player
+      else
+        render 'edit'
+      end
     else
+      flash.now[:danger] = "Submitted password doesn't match current password"
       render 'edit'
     end
+    
   end
 
   def destroy
@@ -43,8 +49,8 @@ class PlayersController < ApplicationController
 
   private
   def player_params
-    params.require(:player).permit(:name, :email, :password,
-                                 :password_confirmation)
+    params.require(:player).permit(:name, :email, :password, 
+                                  :password_confirmation)
   end
 
   # Before filters
@@ -53,5 +59,11 @@ class PlayersController < ApplicationController
     def correct_player
       @player = Player.find(params[:id])
       redirect_to(root_url) unless current_player?(@player)
+    end
+
+    # Confirm correct current password before updating 
+    def check_password?
+      @player = Player.find(params[:id])
+      @player.authenticate(params[:player][:current_password])
     end
 end

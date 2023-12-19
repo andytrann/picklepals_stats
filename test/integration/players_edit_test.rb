@@ -24,6 +24,7 @@ class PlayersEditTest < ActionDispatch::IntegrationTest
     email = "foo@bar.com"
     patch player_path(@player), params: { player: { name: name,
                                               email: email,
+                                              current_password: "password",
                                               password: "",
                                               password_confirmation: "" } }
     assert_not flash.empty?
