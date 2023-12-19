@@ -7,7 +7,7 @@ class PlayerMailerTest < ActionMailer::TestCase
     mail = PlayerMailer.password_reset(player)
     assert_equal "Password reset", mail.subject
     assert_equal [player.email], mail.to
-    assert_equal ["tr.andy1113@gmail.com"], mail.from
+    assert_equal ["noreply@picklepals.tools"], mail.from
     assert_match player.reset_token, mail.body.encoded
     assert_match CGI.escape(player.email), mail.body.encoded
   end

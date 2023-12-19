@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.5'
+ruby '3.1.4'
 
 gem 'rails',                      '~>6.1.7.5'
 gem 'pg',                         '1.2.3'
@@ -10,7 +10,7 @@ gem 'mini_magick',                '4.9.5'
 gem 'active_storage_validations', '0.8.2'
 gem 'bcrypt',                     '3.1.13'
 gem 'faker',                      '2.1.2'
-gem 'will_paginate',              '3.1.8'
+gem 'will_paginate',              '3.3.0'
 gem 'bootstrap-will_paginate',    '1.0.0'
 gem 'bootstrap-sass',             '3.4.1'
 gem 'puma',                       '~>5.6.7'
@@ -18,9 +18,10 @@ gem 'sass-rails',                 '6.0.0'
 gem 'webpacker',                  '5.4.0'
 gem 'turbolinks',                 '5.2.1'
 gem 'jbuilder',                   '2.10.0'
-gem 'bootsnap',                   '1.7.2', require: false
+gem 'bootsnap',                   '>=1.7.2', require: false
 gem "net-http" #used to get rid of warning errors for already initialized constants in protocol.rb
 gem 'trueskill-ranked'
+gem 'rexml',                      '~> 3.2'
 
 group :development, :test do
   gem 'byebug',  '11.1.3', platforms: [:mri, :mingw, :x64_mingw]
@@ -50,3 +51,5 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 # gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem "matrix", "~> 0.4.2"
