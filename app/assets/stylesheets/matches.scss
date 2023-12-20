@@ -76,6 +76,24 @@ $match-bg-color: white;
   align-items: center;
 }
 
+.match_team_one_player_name {
+  width: 100%;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.match_team_two_player_name {
+  width: 100%;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+}
+
 .match_score {
   display: flex;
   justify-content: center;
@@ -89,16 +107,16 @@ $match-bg-color: white;
   display: flex;
   justify-content: start;
   align-items: center;
-  text-align: center;
   color: $winning-color;
+  margin-left: 4px;
 }
 
 .match_rating_lose {
   display: flex;
   justify-content: start;
   align-items: center;
-  text-align: center;
   color: $losing-color;
+  margin-left: 4px;
 }
 
 .match_pagination {

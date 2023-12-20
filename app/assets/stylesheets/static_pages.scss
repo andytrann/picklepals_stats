@@ -4,4 +4,21 @@
 
 .leaderboard {
   background-color: white;
+  table-layout: fixed;
+}
+
+.leaderboard_player_name {
+  width: 100%;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leaderboard_record {
+  text-align: center;
+}
+
+.leaderboard_rating {
+  text-align: center;
 }

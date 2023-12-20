@@ -1,13 +1,17 @@
 .player_stats {
-  height: 160px;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: white;
   border-radius: 10px;
   .player_name {
+    width: 100%;
     font-size: 40px;
     font-weight: bold;
+    word-wrap: break-word;
+    display: block;
+    text-align: center;
+    line-height: 1em;
   }
   .player_rank {
     font-size: 40px;

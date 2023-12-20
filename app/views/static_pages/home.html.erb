@@ -1,14 +1,12 @@
 <h1>Leaderboard</h1>
+
 <table class="table table-striped leaderboard">
   <thead>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Record</th>
-      <th scope="col">Rating</th>
-      <% if logged_in? && current_player.admin? && current_player.name == "andy" %>
-        <th scope="col"></th>
-      <% end %>
+      <th scope="col" class="col-xs-1">#</th>
+      <th scope="col" class="col-xs-6 col-md-7">Name</th>
+      <th scope="col" class="col-xs-3 col-md-2 leaderboard_record">Record</th>
+      <th scope="col" class="col-xs-2 col-md-2 leaderboard_rating">Rating</th>
     </tr>
   </thead>
   <tbody>

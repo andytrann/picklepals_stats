@@ -1,23 +1,8 @@
 <% rank = RatingsService.get_player_rank(player, @players) %>
 
 <tr>
-  <th scope="row"> <%= rank %> </th>
-  <td> <%= link_to player.name.titleize, player %> </td>
-  <td> <%= player.won_matches %> - <%= player.lost_matches %></td>
-  <td> <%= player.get_rating.round(2) %> </td>
-  <% if logged_in? && current_player.admin? && current_player.name == "andy" %>
-    <td>
-      <% if !current_player?(player) %>
-        <%= form_with(url: player_activation_path(player.id), method: "patch", 
-                                                              local: true, 
-                                                              data: { confirm: "You sure?" },
-                                                              html: { class: "deactivate_form"}) do |f| %>
-          <%= hidden_field_tag :email, player.email %>
-          <%= hidden_field_tag :isActive, false %>
-          
-          <%= f.submit "Deactivate", class: "hyperlink_button" %>
-        <% end %>
-      <% end %>
-    </td>
-  <% end %>
+  <td> <%= rank %> </th>
+  <td class="leaderboard_player_name"> <%= link_to player.name.titleize, player %> </td>
+  <td class="leaderboard_record"> <%= player.won_matches %> - <%= player.lost_matches %></td>
+  <td class="leaderboard_rating leaderboard_rating"> <%= player.get_rating.round(2) %> </td>
 </tr>
