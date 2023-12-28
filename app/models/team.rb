@@ -10,17 +10,28 @@ class Team < ApplicationRecord
   validate  :validate_different_players
   before_create :alphabetize_players
 
-  def self.find_team(player_one_name, player_two_name)
-    if !player_one_name || !player_two_name
-      return
-    end
+  scope :filter_by_player, ->(player_name) { Team.joins(:player_one, :player_two).where(player_one: {name: player_name.downcase}).or(
+                                                                                  where(player_two: {name: player_name.downcase})) if player_name.present? }
 
-    sorted_player_names = [player_one_name, player_two_name].sort
-    player_one_id = Player.find_by(name: sorted_player_names[0])
-    player_two_id = Player.find_by(name: sorted_player_names[1])
-    Team.find_by(player_one_id: player_one_id, player_two_id: player_two_id)
+  def self.find_team(player_one_name, player_two_name)
+    return if player_one_name.blank? || player_two_name.blank?
+
+    #teams are unique, so should only return one team or nil
+    find_teams(player_one_name, player_two_name).first
   end
 
+  def self.find_teams(player_one_name, player_two_name)
+    teams = Team.filter_by_player(player_one_name).to_a
+    if player_two_name.present?
+      teams = teams.select {|team| (team.player_one.name == player_two_name.downcase ||
+                                    team.player_two.name == player_two_name.downcase) }
+    end
+    teams
+  end
+
+  def has_player?(player)
+    player_one == player || player_two == player
+  end
   private
     def alphabetize_players
       player_one = Player.find(self.player_one_id)

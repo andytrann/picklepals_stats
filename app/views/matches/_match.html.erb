@@ -1,7 +1,7 @@
 <div class="row row-no-gutters">
   <div class="col-xs-12 col-md-6 col-md-offset-3 match_row">
     <% if @player.nil? %>
-    <div>
+    <div class="match_sidebar_neutral">
     <% elsif match.player_won?(@player) %>
     <div class="match_sidebar_win">
     <% else %>
@@ -38,7 +38,7 @@
             <%= link_to match.losing_team.player_two.name.titleize, match.losing_team.player_two %>
           </div>
         </div>
-        <% if !@player.nil? %>
+        <% if !@player.nil? && current_page?(player_path(@player)) %>
         <div class="match_rating_win">
           <%= @player.rating_gained(match).round(2) %>
         </div>
@@ -63,9 +63,11 @@
             <%= link_to match.winning_team.player_two.name.titleize, match.winning_team.player_two %>
           </div>
         </div>
+        <% if current_page?(player_path(@player)) %>
         <div class="match_rating_lose">
           <%= @player.rating_gained(match).round(2) %>
         </div>
+        <% end %>
         <% end %>
       </div>
     </div>

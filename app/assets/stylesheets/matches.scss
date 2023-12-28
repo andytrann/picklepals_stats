@@ -2,6 +2,7 @@
 
 $winning-color: green;
 $losing-color: red;
+$neutral-color: lightgray;
 $ice-color: lightblue;
 $match-bg-color: white;
 
@@ -18,6 +19,11 @@ $match-bg-color: white;
 
 .match_sidebar_lose {
   background-color: $losing-color;
+  border-radius: 3px;
+}
+
+.match_sidebar_neutral {
+  background-color: $neutral-color;
   border-radius: 3px;
 }
 
@@ -122,6 +128,16 @@ $match-bg-color: white;
 .match_pagination {
   display: flex;
   justify-content: center;
+}
+
+.matchups_matches {
+  margin-top: 30px;
+}
+
+.matchups_score {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
 }
 
 @media (max-width: 767px) {

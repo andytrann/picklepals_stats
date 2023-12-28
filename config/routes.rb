@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get    '/submit',  to: 'match_submissions#new'
   get    '/player_names', to: 'match_submissions#player_names'
   get    '/rollback', to: 'matches#rollback'
+  get    '/matchups', to: 'matches#index'
   resources :players,             except: :index
   resources :player_activations,  only: [:update]
   resources :password_resets,     only: [:new, :create, :edit, :update]

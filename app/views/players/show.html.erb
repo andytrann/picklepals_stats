@@ -1,8 +1,8 @@
 <% provide(:title, @player.name.titleize) %>
 <% rank = RatingsService.get_player_rank(@player, @players) %>
 
-<div class="container player_info">
-  <div class="row">
+<div class="player_info">
+  <div class="row row-no-gutters">
     <div class="col-xs-10 col-xs-offset-1 player_stats">
       <div class="player_name player_rank_<%= rank %>">
         <%= @player.name.titleize %>
@@ -33,8 +33,8 @@
   </div>
 </div>
 
-<% if @player.matches.any? %>
-<div class="container player_match_history">
+<% if @matches.any? %>
+<div class="player_match_history">
   <%= render @matches %>
 </div>
 <div class="match_pagination">

@@ -26,6 +26,13 @@ class Match < ApplicationRecord
     losing_team_score == 0
   end
 
+  def self.filter_by_players(params)
+    team_ones = Team.find_teams(params[:team_one_player_one], params[:team_one_player_two])
+    team_twos = Team.find_teams(params[:team_two_player_one], params[:team_two_player_two])
+
+    where(winning_team: team_ones, losing_team: team_twos).or(where(winning_team: team_twos, losing_team: team_ones))
+  end
+
   private
     def validate_different_teams
       if self.winning_team_id == self.losing_team_id
