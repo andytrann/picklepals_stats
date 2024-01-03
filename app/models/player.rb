@@ -120,7 +120,7 @@ class Player < ApplicationRecord
   end
 
   def self.search(term)
-    where("name ILIKE ?", "#{term}%")
+    where("name ILIKE ?", "%#{term}%")
   end
 
   private
