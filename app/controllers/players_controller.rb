@@ -2,6 +2,7 @@ class PlayersController < ApplicationController
   before_action :logged_in_player, only: [:edit, :update, :destroy]
   before_action :correct_player,   only: [:edit, :update]
   before_action :admin_player,     only: :destroy
+  before_action :logged_out_player, only: [:new, :create]
 
   def show
     @players = Player.sort_by_rating
@@ -55,15 +56,22 @@ class PlayersController < ApplicationController
 
   # Before filters
 
-    # Confirms the correct player.
-    def correct_player
-      @player = Player.find(params[:id])
-      redirect_to(root_url) unless current_player?(@player)
-    end
+  # Confirms the correct player.
+  def correct_player
+    @player = Player.find(params[:id])
+    redirect_to(root_url) unless current_player?(@player)
+  end
 
-    # Confirm correct current password before updating 
-    def check_password?
-      @player = Player.find(params[:id])
-      @player.authenticate(params[:player][:current_password])
+  # Confirm correct current password before updating 
+  def check_password?
+    @player = Player.find(params[:id])
+    @player.authenticate(params[:player][:current_password])
+  end
+
+  def logged_out_player
+    if logged_in?
+      flash[:danger] = "Cannot sign up while logged in."
+      redirect_to root_url
     end
+  end
 end

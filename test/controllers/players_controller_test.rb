@@ -11,6 +11,36 @@ class PlayersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should create new player" do
+    assert_difference 'Player.count', 1 do
+      post players_path, params: { player: { name: "test",
+                                             email: "test@example.com",
+                                             password: "password",
+                                             password_confirmation: "password" } }
+    end
+    assert_not flash.empty?
+    assert_redirected_to root_url
+  end
+
+  test "should redirect new when logged in" do
+    log_in_as(@player)
+    get signup_path
+    assert_not flash.empty?
+    assert_redirected_to root_url
+  end
+
+  test "should redirect create when logged in" do
+    log_in_as(@player)
+    assert_no_difference 'Player.count' do
+      post players_path, params: { player: { name: "test",
+                                             email: "test@example.com",
+                                             password: "password",
+                                             password_confirmation: "password" } }
+    end
+    assert_not flash.empty?
+    assert_redirected_to root_url
+  end
+
   test "should redirect edit when not logged in" do
     get edit_player_path(@player)
     assert_not flash.empty?
