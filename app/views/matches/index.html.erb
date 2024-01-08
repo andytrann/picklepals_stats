@@ -2,28 +2,27 @@
 <h1>Matchups</h1>
 
 <div class="row row-no-gutters">
-  <div class="col-xs-12">
-    <%= form_with(url: matches_path, method: "get", local: true) do |f| %>
-      <div class="col-md-3 col-md-offset-2">
-        <%= f.label :team_one_player_one, "Team One Player One" %>
-        <%= f.text_field :team_one_player_one, value: @team_one_player_one, class: 'form-control player-name-autocomplete' %>
+  <%= form_with(url: matches_path, method: "get", local: true) do |f| %>
+    <div class="col-md-3 col-md-offset-2">
+      <%= f.label :team_one_player_one, "Team One Player One" %>
+      <%= f.text_field :team_one_player_one, value: @team_one_player_one, class: 'form-control player-name-autocomplete' %>
 
-        <%= f.label :team_one_player_two, "Team One Player Two" %>
-        <%= f.text_field :team_one_player_two, value: @team_one_player_two, class: 'form-control player-name-autocomplete' %>
-      </div>
+      <%= f.label :team_one_player_two, "Team One Player Two" %>
+      <%= f.text_field :team_one_player_two, value: @team_one_player_two, class: 'form-control player-name-autocomplete' %>
+    </div>
 
-      <div class="col-md-3 col-md-offset-2">
+    <div class="col-md-3 col-md-offset-2">
       <%= f.label :team_two_player_one, "Team Two Player One" %>
       <%= f.text_field :team_two_player_one, value: @team_two_player_one, class: 'form-control player-name-autocomplete' %>
 
       <%= f.label :team_two_player_two, "Team Two Player Two" %>
       <%= f.text_field :team_two_player_two, value: @team_two_player_two, class: 'form-control player-name-autocomplete' %>
-      </div>
-      <div class="col-md-4 col-md-offset-4">
-        <%= f.submit "Search", class: "btn btn-primary" %>
-      </div>
-    <% end %>
-  </div>
+    </div>
+
+    <div class="col-md-4 col-md-offset-4">
+      <%= f.submit "Search", class: "btn btn-primary" %>
+    </div>
+  <% end %>
 </div>
 <% if @matches.any? %>
 <div class="matchups_matches">
