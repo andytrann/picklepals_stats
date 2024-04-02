@@ -14,8 +14,13 @@
   },
   "version": "1.22.22",
   "devDependencies": {
-    "postcss": "^8.4.32",
+    "postcss": "^8.4.38",
     "webpack-dev-server": "^5.0.4"
+  },
+  "resolutions": {
+    "postcss": "^8.4.38",
+    "glob-parent": ">=5.1.2",
+    "nth-check": ">=2.0.1"
   },
   "engines": {
     "node": "21.4.0",
