@@ -12,13 +12,13 @@
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12"
   },
-  "version": "0.1.0",
+  "version": "1.22.22",
   "devDependencies": {
     "postcss": "^8.4.32",
-    "webpack-dev-server": "^4.15.1"
+    "webpack-dev-server": "^5.0.4"
   },
   "engines": {
-    "node": "16.20.2",
-    "yarn": "1.22.21"
+    "node": "21.4.0",
+    "yarn": "1.22.22"
   }
 }
