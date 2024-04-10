@@ -24,6 +24,8 @@
 
       <%= f.label :team_two_score, "Team Two Score" %>
       <%= f.number_field :team_two_score, min: 0, required: "required" %>
+
+      <%= f.hidden_field :league_id, value: League.get_current_league_id %>
       
       <%= f.submit "Submit", class: "btn btn-primary" %>
     <% end %>

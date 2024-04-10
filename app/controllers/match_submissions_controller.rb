@@ -1,11 +1,13 @@
 class MatchSubmissionsController < ApplicationController
-  before_action :logged_in_player,     only: [:new, :create]
-  before_action :admin_player,         only: [:new, :create]
-  before_action :downcase_names,       only: :create
+  before_action :logged_in_player,                     only: [:new, :create]
+  before_action :cur_league_creator_or_proctor_player, only: [:new, :create]
+  before_action :downcase_names,                       only: :create
 
   def player_names
     players = Player.search(params[:term])
-    names = players.select(&:active).map(&:name)
+    league = League.find(League.get_current_league_id)
+    names = players.select(&:active).select{|p| p.leagues.include? league}.map(&:name)
+    #names = players.select(&:active).map(&:name)
     sorted_names = names.map(&:titleize).sort
     render json: sorted_names
   end
@@ -38,7 +40,8 @@ class MatchSubmissionsController < ApplicationController
                                                 :team_two_player_one_name,
                                                 :team_two_player_two_name,
                                                 :team_one_score,
-                                                :team_two_score )
+                                                :team_two_score,
+                                                :league_id )
     end
 
     def downcase_names

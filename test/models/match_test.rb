@@ -5,7 +5,8 @@ class MatchTest < ActiveSupport::TestCase
     @match = Match.new(winning_team_id: teams(:al).id, 
                        losing_team_id:  teams(:cs).id, 
                        winning_team_score: 11,
-                       losing_team_score:  2)
+                       losing_team_score:  2,
+                       league_id: leagues(:leaguetest).id)
   end
 
   test "should be valid" do

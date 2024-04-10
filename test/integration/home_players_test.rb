@@ -9,7 +9,7 @@ class HomePlayersTest < ActionDispatch::IntegrationTest
   test "home page includes links to each player" do
     get root_path
     assert_template 'static_pages/home'
-    active_players = Player.all.select(&:active)
+    active_players = Player.sort_by_rating(League.get_current_league_id)
     active_players.each do |player|
       assert_select 'a[href=?]', player_path(player), text: player.name.titleize
     end

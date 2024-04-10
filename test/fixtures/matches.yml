@@ -4,4 +4,5 @@ matchtest:
   winning_team_score: 11
   losing_team_score: 4
   played_at: <%= Time.now.utc %>
+  league: leaguetest
 

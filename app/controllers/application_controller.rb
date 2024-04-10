@@ -15,4 +15,9 @@ class ApplicationController < ActionController::Base
     def admin_player
       redirect_to(root_url) unless current_player.admin?
     end
+
+    def cur_league_creator_or_proctor_player
+      player_league = current_player.player_leagues.select { |pl| pl.league_id == League.get_current_league_id}.first
+      redirect_to(root_url) unless (player_league && (player_league.role_creator? || player_league.role_proctor?))
+    end
 end

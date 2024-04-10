@@ -1,8 +1,8 @@
-<% rank = RatingsService.get_player_rank(player, @players) %>
+<% rank = RatingsService.get_player_rank(player, @players, League.get_current_league_id) %>
 
 <tr>
   <td> <%= rank %> </th>
   <td class="leaderboard_player_name"> <%= link_to player.name.titleize, player %> </td>
-  <td class="leaderboard_record"> <%= player.won_matches %> - <%= player.lost_matches %></td>
+  <td class="leaderboard_record"> <%= player.won_matches(League.get_current_league_id) %> - <%= player.lost_matches(League.get_current_league_id) %></td>
   <td class="leaderboard_rating leaderboard_rating"> <%= player.get_rating.round(2) %> </td>
 </tr>

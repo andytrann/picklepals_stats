@@ -10,10 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_12_10_060934) do
+ActiveRecord::Schema.define(version: 2024_04_07_205109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  # These are custom enum types that must be created before they can be used in the schema definition
+  create_enum "participant_status", ["pending", "active", "inactive"]
+  create_enum "role_type", ["creator", "proctor", "participant"]
+  create_enum "status_type", ["pending", "ongoing", "closed"]
+
+  create_table "leagues", force: :cascade do |t|
+    t.string "name"
+    t.integer "creator_id"
+    t.datetime "closed_at"
+    t.enum "status", as: "status_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["creator_id"], name: "index_leagues_on_creator_id"
+  end
 
   create_table "matches", force: :cascade do |t|
     t.integer "winning_team_id"
@@ -23,8 +38,22 @@ ActiveRecord::Schema.define(version: 2023_12_10_060934) do
     t.datetime "played_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "league_id"
+    t.index ["league_id"], name: "index_matches_on_league_id"
     t.index ["losing_team_id", "played_at"], name: "index_matches_on_losing_team_id_and_played_at"
     t.index ["winning_team_id", "played_at"], name: "index_matches_on_winning_team_id_and_played_at"
+  end
+
+  create_table "player_leagues", force: :cascade do |t|
+    t.bigint "player_id", null: false
+    t.bigint "league_id", null: false
+    t.enum "role", as: "role_type"
+    t.enum "status", as: "participant_status"
+    t.datetime "invited_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["league_id"], name: "index_player_leagues_on_league_id"
+    t.index ["player_id"], name: "index_player_leagues_on_player_id"
   end
 
   create_table "player_matches", force: :cascade do |t|
@@ -81,8 +110,12 @@ ActiveRecord::Schema.define(version: 2023_12_10_060934) do
     t.index ["player_two_id"], name: "index_teams_on_player_two_id"
   end
 
+  add_foreign_key "leagues", "players", column: "creator_id"
+  add_foreign_key "matches", "leagues"
   add_foreign_key "matches", "teams", column: "losing_team_id"
   add_foreign_key "matches", "teams", column: "winning_team_id"
+  add_foreign_key "player_leagues", "leagues"
+  add_foreign_key "player_leagues", "players"
   add_foreign_key "player_matches", "matches"
   add_foreign_key "player_matches", "players"
   add_foreign_key "player_ratings", "player_matches"

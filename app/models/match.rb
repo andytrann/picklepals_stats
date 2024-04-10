@@ -1,6 +1,7 @@
 class Match < ApplicationRecord
   belongs_to :winning_team,   class_name: "Team"
   belongs_to :losing_team,    class_name: "Team"
+  belongs_to :league
   has_many   :player_matches, dependent: :destroy
   has_many   :players, through: :player_matches
   has_many   :team_matches, dependent: :destroy

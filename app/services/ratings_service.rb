@@ -14,10 +14,10 @@ class RatingsService
     teams.each do |team|
       ratings = []
       team.each do |player|
-        if player.player_ratings.count == 0
+        if player.get_league_ratings(match.league_id).count == 0
           rating = Rating.new
         else
-          player_rating = player.player_ratings.first
+          player_rating = player.get_league_ratings(match.league_id).first
           rating = Rating.new(player_rating.mu, player_rating.sigma)
         end
         ratings.push(rating)
@@ -30,9 +30,9 @@ class RatingsService
     new_ratings = true_skill.transform_ratings(teams_ratings, [0, 1])
   end
 
-  def self.exposed_rating_formatted(player_or_rating)
+  def self.exposed_rating_formatted(player_or_rating, league)
     if player_or_rating.is_a?(Player)
-      player_rating = player_or_rating.player_ratings.first
+      player_rating = player_or_rating.get_league_ratings(league).first
       if player_rating.nil?
         rating = Rating.new
       else
@@ -44,26 +44,26 @@ class RatingsService
     end
   end
 
-  def self.get_player_rank(player, players)
+  def self.get_player_rank(player, players, league)
     return if player.nil?
     index = players.find_index(player)
     return if index.nil?
     if index == 0
       index + 1
     elsif index == 1
-      exposed_player_rating = exposed_rating_formatted(player)
-      exposed_previous_player_rating = exposed_rating_formatted(players[index - 1])
+      exposed_player_rating = exposed_rating_formatted(player, league)
+      exposed_previous_player_rating = exposed_rating_formatted(players[index - 1], league)
       if (exposed_player_rating - exposed_previous_player_rating).abs <= 0.00001
         index
       else
         index + 1
       end
     else
-      exposed_player_rating = exposed_rating_formatted(player)
-      exposed_previous_player_rating = exposed_rating_formatted(players[index - 1])
+      exposed_player_rating = exposed_rating_formatted(player, league)
+      exposed_previous_player_rating = exposed_rating_formatted(players[index - 1], league)
       while (index >= 1 && (exposed_player_rating - exposed_previous_player_rating).abs <= 0.00001)
         index -= 1
-        exposed_previous_player_rating = exposed_rating_formatted(players[index - 1])
+        exposed_previous_player_rating = exposed_rating_formatted(players[index - 1], league)
       end
       index + 1
     end

@@ -32,6 +32,15 @@ class Team < ApplicationRecord
   def has_player?(player)
     player_one == player || player_two == player
   end
+
+  def get_league_wins(league_id)
+    winning_matches.select { |m| m.league_id == league_id }
+  end
+
+  def get_league_losses(league_id)
+    losing_matches.select { |m| m.league_id == league_id }
+  end
+
   private
     def alphabetize_players
       player_one = Player.find(self.player_one_id)

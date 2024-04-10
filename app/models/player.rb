@@ -4,6 +4,8 @@ class Player < ApplicationRecord
   has_many :player_matches
   has_many :matches, through: :player_matches
   has_many :player_ratings, through: :player_matches
+  has_many :player_leagues
+  has_many :leagues, through: :player_leagues
 
   attr_accessor :remember_token, :reset_token
   before_save :downcase_name
@@ -67,56 +69,64 @@ class Player < ApplicationRecord
     reset_sent_at < 2.hours.ago
   end
 
-  def won_matches
+  def won_matches(league_id)
     sum = 0
     team_player_one_roles.each do |team|
-      sum += team.winning_matches.count
+      sum += team.get_league_wins(league_id).count
     end
     team_player_two_roles.each do |team|
-      sum += team.winning_matches.count
+      sum += team.get_league_wins(league_id).count
     end
     sum
   end
 
-  def lost_matches
+  def lost_matches(league_id)
     sum = 0
     team_player_one_roles.each do |team|
-      sum += team.losing_matches.count
+      sum += team.get_league_losses(league_id).count
     end
     team_player_two_roles.each do |team|
-      sum += team.losing_matches.count
+      sum += team.get_league_losses(league_id).count
     end
     sum
   end
 
   def get_rating
-    RatingsService.exposed_rating_formatted(self)
+    RatingsService.exposed_rating_formatted(self, League.get_current_league_id)
   end
 
-  def self.sort_by_rating
-    Player.all.select(&:active?).sort_by(&:get_rating).reverse
+  def get_league_ratings(league_id)
+    player_ratings.select { |pr| pr.player_match.match.league_id == league_id }
+  end
+
+  def self.sort_by_rating(league_id)
+    players = Player.all.select(&:active?).sort_by(&:get_rating).reverse
+    league = League.find(league_id)
+    players.select{ |p| p.leagues.include? league }
   end
 
   def rating_gained(match)
     return if !match.is_a?(Match)
 
-    match_index = matches.find_index(match)
+    league_matches = matches.select { |m| m.league_id == match.league_id}
+    match_index = league_matches.find_index(match)
     return if match_index.nil?
 
     player_match = player_matches.find_by(match: match)
-    player_rating = player_ratings.find_by(player_match: player_match)
+    league_ratings = get_league_ratings(match.league_id)
+    player_rating = league_ratings.select { |pr| pr.player_match == player_match}.first
     rating = Rating.new(player_rating.mu, player_rating.sigma)
 
-    if match_index == matches.count - 1
+    if match_index == league_matches.count - 1
       previous_rating = Rating.new
     else
-      previous_match = matches[match_index + 1]
+      previous_match = league_matches[match_index + 1]
       previous_player_match = player_matches.find_by(match: previous_match)
-      previous_player_rating = player_ratings.find_by(player_match: previous_player_match)
+      previous_player_rating = league_ratings.select { |pr| pr.player_match == previous_player_match}.first
       previous_rating = Rating.new(previous_player_rating.mu, previous_player_rating.sigma)
     end
 
-    RatingsService.exposed_rating_formatted(rating) - RatingsService.exposed_rating_formatted(previous_rating)
+    RatingsService.exposed_rating_formatted(rating, match.league_id) - RatingsService.exposed_rating_formatted(previous_rating, match.league_id)
   end
 
   def self.search(term)

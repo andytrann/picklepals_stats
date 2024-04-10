@@ -38,6 +38,15 @@ module SessionsHelper
     !current_player.nil? && current_player.admin?
   end
 
+  def cur_league_creator_or_proctor?
+    if (!current_player.nil?)
+      player_league = current_player.player_leagues.select { |pl| pl.league_id == League.get_current_league_id}.first
+      player_league && (player_league.role_creator? || player_league.role_proctor?)
+    else
+      false
+    end
+  end
+
   # Forgets a persistent session.
   def forget(player)
     player.forget

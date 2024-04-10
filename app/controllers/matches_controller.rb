@@ -1,9 +1,9 @@
 class MatchesController < ApplicationController
-  before_action :logged_in_player, only: [:rollback, :destroy]
-  before_action :admin_player,     only: [:rollback, :destroy]
-  before_action :store_filter_values, only: :index
-  before_action :validate_team_one_priority, only: :index
-  before_action :validate_players, only: :index
+  before_action :logged_in_player,                       only: [:rollback, :destroy]
+  before_action :cur_league_creator_or_proctor_player,   only: [:rollback, :destroy]
+  before_action :store_filter_values,                    only: :index
+  before_action :validate_team_one_priority,             only: :index
+  before_action :validate_players,                       only: :index
   
   def index
     if @team_one_player_one.present?
@@ -21,7 +21,7 @@ class MatchesController < ApplicationController
   end
 
   def rollback
-    @last_match = Match.first
+    @last_match = Match.select{ |m| m.league_id == League.get_current_league_id }.first
   end
 
   def destroy

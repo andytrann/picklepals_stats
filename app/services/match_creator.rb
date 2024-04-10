@@ -11,6 +11,7 @@ class MatchCreator
     @team_two_player_two_name = attributes[:team_two_player_two_name]
     @team_one_score = attributes[:team_one_score]
     @team_two_score = attributes[:team_two_score]
+    @league_id = attributes[:league_id]
     @errors = Array.new
   end
 
@@ -27,7 +28,7 @@ class MatchCreator
         # Create new Match
         match = Match.new(winning_team_id: @winning_team.id, losing_team_id: @losing_team.id,
                           winning_team_score: @winning_score, losing_team_score: @losing_score,
-                          played_at: Time.now.utc)
+                          played_at: Time.now.utc, league_id: @league_id)
         return unless match.save!
         
         create_player_matches(match)

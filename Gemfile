@@ -22,6 +22,7 @@ gem 'bootsnap',                   '>=1.7.2', require: false
 gem "net-http" #used to get rid of warning errors for already initialized constants in protocol.rb
 gem 'trueskill-ranked'
 gem 'rexml',                      '~> 3.2'
+gem 'activerecord-pg_enum'
 
 group :development, :test do
   gem 'byebug',  '11.1.3', platforms: [:mri, :mingw, :x64_mingw]

@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+playerleaguetest:
+  player: andytest
+  league: leaguetest
+  role: creator
+  status: active
+  invited_at: 2024-04-06 23:04:42
+

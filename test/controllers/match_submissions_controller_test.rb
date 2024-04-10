@@ -9,7 +9,8 @@ class MatchSubmissionsControllerTest < ActionDispatch::IntegrationTest
                 team_two_player_one_name: "steve test",
                 team_two_player_two_name: "leslie test",
                 team_one_score: 11,
-                team_two_score: 4 }
+                team_two_score: 4,
+                league_id: leagues(:leaguetest).id }
   end
 
   def reset_params_to_default
@@ -18,7 +19,8 @@ class MatchSubmissionsControllerTest < ActionDispatch::IntegrationTest
                 team_two_player_one_name: "steve test",
                 team_two_player_two_name: "leslie test",
                 team_one_score: 11,
-                team_two_score: 4 }
+                team_two_score: 4,
+                league_id: leagues(:leaguetest).id }
   end
 
   test "should get submit page" do

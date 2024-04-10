@@ -1,13 +1,13 @@
 class PlayersController < ApplicationController
-  before_action :logged_in_player, only: [:edit, :update, :destroy]
-  before_action :correct_player,   only: [:edit, :update]
-  before_action :admin_player,     only: :destroy
-  before_action :logged_out_player, only: [:new, :create]
+  before_action :logged_in_player,                     only: [:edit, :update, :destroy]
+  before_action :correct_player,                       only: [:edit, :update]
+  before_action :cur_league_creator_or_proctor_player, only: :destroy
+  before_action :logged_out_player,                    only: [:new, :create]
 
   def show
-    @players = Player.sort_by_rating
+    @players = Player.sort_by_rating(League.get_current_league_id)
     @player = Player.find(params[:id])
-    @matches = @player.matches.paginate(page: params[:page], per_page: 10)
+    @matches = @player.matches.where(league_id: League.get_current_league_id).paginate(page: params[:page], per_page: 10)
   end
 
   def new
